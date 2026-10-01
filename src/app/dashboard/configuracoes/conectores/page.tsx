@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import clsx from "clsx";
 
 type Connector = {
@@ -9,7 +9,7 @@ type Connector = {
   description: string;
   category: string;
   status: "connected" | "disconnected" | "coming_soon";
-  icon: React.ReactNode;
+  icon: ReactNode;
   fields: { key: string; label: string; placeholder: string; type?: string }[];
 };
 
