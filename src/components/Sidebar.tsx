@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import clsx from "clsx";
 
-const NAV = [
+const MODULES = [
   {
     href: "/dashboard",
     label: "Visão Geral",
@@ -57,6 +57,19 @@ const NAV = [
       </svg>
     ),
   },
+];
+
+const SYSTEM = [
+  {
+    href: "/dashboard/integracoes",
+    label: "Integrações",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+      </svg>
+    ),
+  },
   {
     href: "/dashboard/configuracoes",
     label: "Configurações",
@@ -68,6 +81,23 @@ const NAV = [
     ),
   },
 ];
+
+function NavItem({ item, active }: { item: typeof MODULES[0]; active: boolean }) {
+  return (
+    <Link
+      href={item.href}
+      className={clsx(
+        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+        active
+          ? "bg-sidebar-active text-sidebar-text-active"
+          : "text-sidebar-text hover:bg-sidebar-active/50 hover:text-sidebar-text-active"
+      )}
+    >
+      <span className={active ? "text-accent" : ""}>{item.icon}</span>
+      {item.label}
+    </Link>
+  );
+}
 
 export default function Sidebar({ userEmail }: { userEmail: string }) {
   const pathname = usePathname();
@@ -100,27 +130,34 @@ export default function Sidebar({ userEmail }: { userEmail: string }) {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto scrollbar-thin">
-        {NAV.map(item => {
-          const active = item.href === "/dashboard"
-            ? pathname === "/dashboard"
-            : pathname.startsWith(item.href);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={clsx(
-                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
-                active
-                  ? "bg-sidebar-active text-sidebar-text-active"
-                  : "text-sidebar-text hover:bg-sidebar-active/50 hover:text-sidebar-text-active"
-              )}
-            >
-              <span className={active ? "text-accent" : ""}>{item.icon}</span>
-              {item.label}
-            </Link>
-          );
-        })}
+      <nav className="flex-1 px-3 py-4 overflow-y-auto scrollbar-thin space-y-4">
+        {/* MÓDULOS */}
+        <div>
+          <p className="px-3 mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-sidebar-text/60">
+            Módulos
+          </p>
+          <div className="space-y-0.5">
+            {MODULES.map(item => {
+              const active = item.href === "/dashboard"
+                ? pathname === "/dashboard"
+                : pathname.startsWith(item.href);
+              return <NavItem key={item.href} item={item} active={active} />;
+            })}
+          </div>
+        </div>
+
+        {/* SISTEMA */}
+        <div>
+          <p className="px-3 mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-sidebar-text/60">
+            Sistema
+          </p>
+          <div className="space-y-0.5">
+            {SYSTEM.map(item => {
+              const active = pathname.startsWith(item.href);
+              return <NavItem key={item.href} item={item} active={active} />;
+            })}
+          </div>
+        </div>
       </nav>
 
       {/* User */}

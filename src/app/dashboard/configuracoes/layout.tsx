@@ -16,12 +16,14 @@ const TABS = [
     ),
   },
   {
-    href: "/dashboard/configuracoes/conectores",
-    label: "Conectores",
+    href: "/dashboard/configuracoes/colaboradores",
+    label: "Colaboradores",
     icon: (
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
       </svg>
     ),
   },
@@ -32,13 +34,14 @@ export default function ConfiguracoesLayout({ children }: { children: React.Reac
 
   return (
     <div className="flex flex-col h-full">
+      {/* Header */}
       <div className="px-8 pt-8 pb-0 border-b border-sidebar-border">
         <h1 className="text-white text-2xl font-bold mb-5" style={{ fontFamily: "Outfit, sans-serif" }}>
           Configurações
         </h1>
         <div className="flex gap-1">
           {TABS.map((tab) => {
-            const active = pathname === tab.href;
+            const active = pathname === tab.href || pathname.startsWith(tab.href + "/");
             return (
               <Link
                 key={tab.href}
@@ -57,6 +60,8 @@ export default function ConfiguracoesLayout({ children }: { children: React.Reac
           })}
         </div>
       </div>
+
+      {/* Content */}
       <div className="flex-1 overflow-y-auto px-8 py-8">
         {children}
       </div>
