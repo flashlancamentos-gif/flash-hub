@@ -12,7 +12,7 @@ export default async function ContaPage() {
     .replace(/\./g, " ")
     .replace(/_/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase())
-    .trim() || user.email ?? "Usuário";
+    .trim() || (user.email ?? "Usuário");
 
   const initial = userName.charAt(0).toUpperCase();
 
